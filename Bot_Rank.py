@@ -33,10 +33,12 @@ roles_color = {
 def obtener_rango_con_selenium(nickname):
     try:
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
         options.add_argument('enable-unsafe-swiftshader')
+        options.add_argument("window-size=800x600")
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        options.add_experimental_option("prefs", prefs)
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
         formatted_nickname = nickname.replace('#', '%23')
@@ -56,8 +58,7 @@ def obtener_rango_con_selenium(nickname):
     except Exception as e:
         print(f"Error: {e}")
         return None
-
-
+    
 
 @bot.command(name="rank")
 async def asignar_rango(ctx, *, nickname):
